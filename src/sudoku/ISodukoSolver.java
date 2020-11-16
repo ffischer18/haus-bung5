@@ -1,9 +1,10 @@
 package sudoku;
 
 import java.io.File;
+import java.io.IOException;
 
 public interface ISodukoSolver {
-    int[][] readSudoku(File file);
+    int[][] readSudoku(File file) throws IOException;
 
     boolean checkSudoku(int[][] rawSudoku);
 
