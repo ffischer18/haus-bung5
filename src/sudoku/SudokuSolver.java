@@ -6,6 +6,10 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
@@ -76,9 +80,12 @@ public class SudokuSolver implements ISodukoSolver {
     }
 
     @Override
-    public int[][] solveSudokuParallel(int[][] rawSudoku) {
-        // implement this method
-        return new int[0][0]; // delete this line!
+    public int[][] solveSudokuParallel(int[][] rawSudoku) throws ExecutionException, InterruptedException {
+        CallableThread ct = new CallableThread(rawSudoku);
+        ExecutorService executor = Executors.newCachedThreadPool();
+        Future<int[][]> result = executor.submit(ct);
+        rawSudoku = result.get();
+        return rawSudoku;
     }
 
     // -----------------------------------------------------------------------------------------------------------------
